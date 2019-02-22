@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>切换背景及缩略图Demo</title>
+        <link href="./image/icon.ico" rel="icon" type="image/x-ico">
+        <style>
+        .main-zoom {
+                height: 100px;
+                text-align: center;
+                margin-top: 100px;
+            }
+
+            .main-zoom-item {
+                margin: 0 auto;
+                display: inline-block;
+                width: 208px;
+                height: 98px;
+            }
+
+            .main-zoom-item img {
+                height: 100%;
+                margin: 0 5px;
+            }
+
+            .button1 {
+                border: 1px gold solid;
+            }
+
+            .button2 {
+                border: 1px gold solid;
+            }
+
+            .main-zoom-item:hover {
+                cursor: pointer;
+                transform: scale(1.2);
+            }
+
+            .main-box {
+                margin: 0 auto;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                height: 500px;
+            }
+
+            .main-box img {
+                height: 100%;
+            }
+
+            .main-pic {
+                width: 950px;
+                height: 455px;
+                padding: 0 5px;
+                display: none;
+                margin: 0 auto;
+            }
+
+            .show {
+                display: block !important;
+            }
+
+            .nav {
+                position: block;
+                width: 100%;
+                float: right;
+                margin: 10px 5px;
+            }
+
+
+
+            .all {
+                z-index: 100px;
+            }
+
+            .toggle {
+                display: block;
+                float: right;
+                margin-right: 70px;
+            }
+
+            .btn {
+                float: right;
+                margin: 0 5px;
+            }
+        </style>
+    <link class='theme' rel="stylesheet" type="text/css" href="./css/null.css">
+    </head>
+    <body>
+
+    <div class='all'>
+        <div class="toggle">
+            <span>主题</span>
+        </div>
+        <div class="nav">
+            <button class="btn" id="id-button-1">蓝色</button>
+            <button class="btn" id="id-button-2">黑色</button>
+            <button class="btn" id="id-button-3">默认</button>
+        </div>
+
+        <div class='main-box'>
+                <img src="./image/疾风剑豪.jpg" id='id-main-pic-1' class="main-pic show" alt="疾风剑豪" >
+
+                <img src="./image/卡牌大师.jpg" class="main-pic" id='id-main-pic-2' alt="卡牌大师" >
+
+                <img src="./image/赏金猎人.jpg" class="main-pic" id='id-main-pic-3' alt="赏金猎人" >
+
+        </div>
+        <div class='main-zoom'>
+            <img src="./image/疾风剑豪.jpg" class="main-zoom-item" alt="疾风剑豪" data-key='#id-main-pic-1'>
+            <img src="./image/卡牌大师.jpg" class="main-zoom-item" alt="卡牌大师" data-key='#id-main-pic-2'>
+            <img src="./image/赏金猎人.jpg" class="main-zoom-item" alt="赏金猎人" data-key='#id-main-pic-3'>
+        </div>
+    </div>
+        <script>
+        var log = function () {
+            console.log.apply(console, arguments)
+        }
+
+        var e = function (sel) {
+            return document.querySelector(sel)
+        }
+
+        var es = function (sel) {
+            return document.querySelectorAll(sel)
+        }
+
+        var bindAll = function (elements, eventName, callback) {
+            for (var i = 0; i < elements.length; i++) {
+                var tag = elements[i]
+                tag.addEventListener(eventName, callback)
+            }
+        }
+
+        var toggleClass = function(element, className) {
+            if (element.classList.contains(className)) {
+                element.classList.remove(className)
+            } else {
+                element.classList.add(className)
+            }
+        }
+
+        var appendHtml = function(element, html) {
+            element.insertAdjacentHTML('beforeend', html)
+        }
+        // 以上是套路
+        var pics = es('.main-zoom-item')
+        bindAll(pics, 'click', function(event) {
+            var self = event.target
+            var old = e('.show')
+            // 先把正在显示的隐藏，再把需要切换的显示出来
+            old.classList.remove('show')
+            // 根据自定义的id属性选择当前需要显示的内容
+            var now = self.dataset.key
+            var item = e(now)
+            item.classList.add('show')
+        })
+
+        var b1 = e('#id-button-1')
+        var b2 = e('#id-button-2')
+        var b3 = e('#id-button-3')
+        b1.addEventListener('click', function(event) {
+            var l = e('.theme')
+            l.remove()
+            var s = document.querySelector('head')
+            var html = `<link class='theme' rel="stylesheet" type="text/css" href="./css/lightblue.css">`
+            appendHtml(s, html)
+        });
+        b2.addEventListener('click', function(event) {
+            var l = e('.theme')
+            l.remove()
+            var s = document.querySelector('head')
+            var html = `<link class='theme' rel="stylesheet" type="text/css" href="./css/black.css">`
+            appendHtml(s, html)
+        });
+        b3.addEventListener('click', function(event) {
+            var l = e('.theme')
+            l.remove()
+            var s = document.querySelector('head')
+            var html = `<link class='theme' rel="stylesheet" type="text/css" href="./css/null.css">`
+            appendHtml(s, html)
+        });
+        </script>
+    </body>
+</html>
